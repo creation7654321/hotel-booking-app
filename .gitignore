@@ -1,0 +1,41 @@
+# Node modules (both client and server)
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment variable files
+.env
+client/.env
+server/.env
+.env.local
+.env.*.local
+client/.env.*
+server/.env.*
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build and dist outputs
+client/build/
+server/dist/
+dist/
+build/
+
+# Coverage/test output
+coverage/
+*.lcov
+
+# Editor/IDE settings
+.vscode/
+.idea/
+
+# Misc
+*.tgz
