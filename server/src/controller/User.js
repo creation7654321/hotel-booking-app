@@ -60,11 +60,19 @@ export const loginController = async(req,res)=>{
                 error : "Invalid password"
             })
         }
+        const token = JWT.sign({id:user._id}, process.env.JWT_SECRET, {
+            expiresIn: '7d',
+        })
 
         return res.status(200).send({
             succes: true,
             message: "login successful",
-            user,
+            token,
+            user:{
+                id:user._id,
+                email: user.email,
+                role: user.role
+            }
         });
 
     } catch (error) {
