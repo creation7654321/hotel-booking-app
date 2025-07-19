@@ -4,6 +4,7 @@ import morgan from "morgan";
 import dotenv from 'dotenv';
 import { connectToDb } from "./src/config/db.js";
 import authRoutes from './src/routes/User.js';
+import bcrypt from "bcrypt";
 
 dotenv.config();
 

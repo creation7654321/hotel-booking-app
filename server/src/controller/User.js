@@ -1,4 +1,6 @@
 import userModel from '../models/User.js'
+import bcrypt from "bcrypt";
+import JWT from 'jsonwebtoken';
 
 export const registerController = async(req,res)=>{
     try {
@@ -15,11 +17,13 @@ export const registerController = async(req,res)=>{
                 error : "User already exists"
             })
         }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = await userModel({
             name,
             email,
-            password
+            password : hashedPassword,
         })
         await newUser.save();
         return res.status(200).send({
@@ -32,6 +36,42 @@ export const registerController = async(req,res)=>{
         return res.status(500).send({
             success: false,
             message : "Problem in register API",
+        })
+    }
+}
+
+export const loginController = async(req,res)=>{
+    try {
+        const {email, password} = req.body;
+        if(!email || !password){
+            return res.status(400).json({
+                error : "All fields are required"
+            })
+        }
+        const user = await userModel.findOne({email});
+        if(!user){
+            return res.status(400).json({
+                error: "Invalid user detials"
+            })
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch){
+            return res.status(400).json({
+                error : "Invalid password"
+            })
+        }
+
+        return res.status(200).send({
+            succes: true,
+            message: "login successful",
+            user,
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success: false,
+            message:"Problem in login API"
         })
     }
 }
