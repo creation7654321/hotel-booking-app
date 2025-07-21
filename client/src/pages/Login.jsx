@@ -2,11 +2,13 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import {toast} from 'react-toastify';
+import { useAuth } from '../context/UserContext';
 
 function Login() {
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
     const[error, setError] = useState("");
+    const[auth, setAuth] = useAuth();
 
     const navigate = useNavigate();
 
@@ -19,6 +21,12 @@ function Login() {
                 password
             });
             toast.success("Login successful");
+            setAuth({
+                ...auth,
+                user:response.data?.user,
+                token:response.data?.token,
+            });
+            localStorage.setItem("auth",JSON.stringify(response.data));
             navigate("/");
             
             
