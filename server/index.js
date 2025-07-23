@@ -6,6 +6,9 @@ import { connectToDb } from "./src/config/db.js";
 import authRoutes from './src/routes/User.js';
 import postRoutes from './src/routes/Post.js'
 import bcrypt from "bcrypt";
+import fileUpload from "express-fileupload"; 
+import multer from 'multer';
+import path from 'path';
 
 dotenv.config();
 
@@ -17,12 +20,17 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 
+app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload({ useTempFiles: true }));
+
 const PORT = process.env.PORT || 3000;
+
 
 
 app.get('/',(req,res)=>{
     console.log("Welcome");
 })
+
 
 //Routes
 app.use("/api/auth",authRoutes);

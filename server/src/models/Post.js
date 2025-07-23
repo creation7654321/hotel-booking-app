@@ -1,23 +1,27 @@
 import mongoose from "mongoose";
 
+const arrayLimit = (val)=>{
+    return val.length === 3;
+}
+
 const postSchema = new mongoose.Schema({
     title:{
         type:String,
         required: true,
     },
     hotelLocation:{
-        title:String,
+        type:String,
         required: true,
     },
     description:{
         type: String,
         required: true,
     },
-    category:{
-        type: mongoose.isObjectId,
-        ref : "Category",
-        required:true,
-    },
+    // category:{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref : "Category",
+    //     required:true,
+    // },
     images:{
         type: [String],
         required: true,
@@ -52,8 +56,6 @@ const postSchema = new mongoose.Schema({
     }
 });
 
-const arrayLimit = ()=>{
-    return val.length === 3;
-}
+
 
 export default mongoose.model("Post",postSchema);
