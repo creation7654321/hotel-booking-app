@@ -9,6 +9,6 @@ const routes = express.Router();
 
 routes.post('/create-post',createPostController);
 routes.get('/get-post/:slug',getPostController);
-routes.get('get-all-post',getAllPostController);
+routes.get('/get-all-posts',getAllPostController);
 
 export default routes;

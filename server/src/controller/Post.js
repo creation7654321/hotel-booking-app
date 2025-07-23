@@ -98,7 +98,19 @@ export const getPostController = async(req,res)=>{
     }
 }
 
-export const getAllPostController = (req,res)=>{
-    
+export const getAllPostController = async(req,res)=>{
+    try {
+        const posts = await Post.find({});
+        return res.status(200).send({
+            success: true,
+            message: "Posts fetched successfully",
+            posts,
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+
+        })
+    }
 }
 
