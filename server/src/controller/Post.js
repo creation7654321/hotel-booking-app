@@ -114,3 +114,106 @@ export const getAllPostController = async(req,res)=>{
     }
 }
 
+export const updatePostController = async (req,res)=>{
+    try {
+        const {id} = req.params;
+        const {title, hotelLocation ,description,nearArea, category, guest, isAvailable, price } = req.body;
+        const files = req.files?.images;
+
+        const post = await Post.findById(id);
+        if(!post){
+            return res.status(404).json({message: "Post not found"});
+        }
+
+        if(!title &&
+            !hotelLocation &&
+            !description &&
+            !images &&
+            !isAvailable &&
+            !guest &&
+            !price &&
+            !nearArea &&
+            !facilities && !files)
+            {
+                return res.status(400).json({
+                    message: "No fields provided to update"
+                })
+            }
+
+        // Handel image update
+        let uploadImage = post.images;
+        if(files && files.length === 3){
+            await Promise.all(
+                post.images.map((url)=> {
+                    const publicId = url.split("/").pop().split(".")[0];
+                    return cloudinary.uploader.destroy(publicId);
+                })
+            )
+
+            //upload new images
+            uploadImage = await Promise.all(
+                files.map((file)=>
+                    cloudinary.uploader
+                    .upload(file.tempFilePath)
+                    .then((result)=>result.secure_url)
+                )
+            )
+        }
+        else if(files && files.length !== 3){
+            return res.status(400).json({
+                message:"Please upload exactly 3 images"
+            })
+        }
+
+        //upload the post 
+        const updatePost = await Post.findByIdAndUpdate(id,{
+            ...(title && {title}),
+            ...(hotelLocation && {hotelLocation}),
+            ...(description && {description}),
+            ...(facilities && {facilities}),
+            ...(nearArea && {nearArea}),
+            ...(guest && {guest}),
+            ...(isAvailable !== undefined && {isAvailable}),
+            ...(price && {price}),
+            ...(files && {images: uploadImage}),
+            ...(title && {slug: slug(title, {lower:true})}),
+        })
+
+        await updatePost.save();
+        return res.status(200).send({
+            success: true,
+            message : "Post updated succesfully",
+            updatePost,
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success: false,
+            message : "error while updating post",
+            error
+        })
+    }
+}
+
+export const deletePostController = async(req,res)=>{
+    try {
+        const id = req.params.id;
+        const postToDelte = await Post.findByIdAndDelete(id);
+        if(!postToDelte){
+            return res.status(500).send({
+                message: "Post not found"
+            })
+        }
+        return res.status(200).send({
+            success: true,
+            message: "Post defalted succesfully"
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            message: "delte post api error"
+        })
+    }
+}
+
