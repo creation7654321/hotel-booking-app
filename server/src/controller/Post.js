@@ -109,7 +109,7 @@ export const getAllPostController = async(req,res)=>{
     } catch (error) {
         console.log(error);
         return res.status(500).send({
-
+            message: "error fetching all data"
         })
     }
 }

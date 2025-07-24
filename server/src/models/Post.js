@@ -17,11 +17,11 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // category:{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref : "Category",
-    //     required:true,
-    // },
+    category:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref : "Category",
+        required:true,
+    },
     images:{
         type: [String],
         required: true,

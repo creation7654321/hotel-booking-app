@@ -29,7 +29,7 @@ function Navbar() {
             <a href="" className='text-gray-600 hover:text-gray-900'>About us</a>
         </div>
 
-        <div className="flex items-center space-x-4 mr-[9rem] relative">
+        <div className="flex items-center space-x-4 mr-[9rem] relative cursor-pointer">
             <FaUser 
             size={20}
             onClick={handleDropDownTogle}
