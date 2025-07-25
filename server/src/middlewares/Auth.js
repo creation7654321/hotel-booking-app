@@ -4,9 +4,21 @@ import User from "../models/User.js";
 
 // Product route based on token
 
+// export const requireSignIn = async(req,res, next)=>{
+//     try {
+//         const decode = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+//         req.user = decode;
+//         next();
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
 export const requireSignIn = async(req,res, next)=>{
     try {
-        const decode = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+        const authHeader = req.headers.authorization;
+        const token = authHeader.split(" ")[1];
+        const decode = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decode;
         next();
     } catch (error) {

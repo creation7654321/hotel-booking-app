@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import { FaUser} from 'react-icons/fa'
 import logo from '../assets/logo.png'
+import { useAuth } from '../context/UserContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
     const isSingIn = true;
 
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+    const[auth] = useAuth();
+    const navigate = useNavigate();
 
     const handleDropDownTogle = ()=>{
         setIsDropDownOpen(prevState => !prevState);
@@ -13,6 +17,16 @@ function Navbar() {
 
     const closeDropDown = ()=>{
         setIsDropDownOpen(false);
+    }
+
+    const handleRedirect = ()=>{
+
+        if(auth.user.role === "admin"){
+            navigate('/admin/details');
+        }
+        else{
+            navigate('/user');
+        }
     }
 
   return (
@@ -41,14 +55,9 @@ function Navbar() {
                 onMouseLeave={closeDropDown}
                 >
                     <ul>
-                        <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer'>
-                            <a href="/">Profile</a>
+                        <li onClick={handleRedirect} className='px-4 py-2 hover:bg-gray-100 cursor-pointer'>
+                            Profile
                         </li>
-
-                        <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer'>
-                            <a href="/">Your order</a>
-                        </li>
-
 
                         {isSingIn ?(
                             <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer'>
