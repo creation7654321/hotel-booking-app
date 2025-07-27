@@ -8,12 +8,13 @@ export const createPostController = async(req,res)=>{
             title, 
             hotelLocation,
             description,
-            images,
             isAvailable,
             guest,
             price,
             nearArea,
             facilities,
+            category,
+
         } = req.body;
 
         const files = req.files?.images;
@@ -23,7 +24,7 @@ export const createPostController = async(req,res)=>{
 
         if(!title || !hotelLocation || !description ||
             isAvailable===undefined || !guest || !price || !nearArea ||
-            !facilities){
+            !facilities || !category){
                 return res.status(400).json({
                     message: "All fields are required"
                 })
@@ -52,6 +53,7 @@ export const createPostController = async(req,res)=>{
             price,
             nearArea,
             facilities,
+            category,
             slug : slugify(title, {lower:true})
         })
         await newPost.save();
@@ -76,7 +78,7 @@ export const getPostController = async(req,res)=>{
     try {
         const post = await Post.findOne({slug: req.params.slug})
         .select("-images")
-        // .populate("category");
+        .populate("category");
         if(!post){
             return res.status(404).send({
                 success:false,

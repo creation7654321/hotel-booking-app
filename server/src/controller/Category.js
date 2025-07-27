@@ -54,3 +54,11 @@ export const getAllCategoryController = async(req,res)=>{
         })
     }
 }
+
+export const updateCategoryController = async(req,res)=>{
+    try {
+        
+    } catch (error) {
+        
+    }
+}
