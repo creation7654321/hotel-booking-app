@@ -13,7 +13,7 @@ function AdminRoutes() {
     useEffect(()=>{
         const authCheck = async()=>{
             try {
-                const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/auth/user-auth`,{
+                const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/auth/is-admin`,{
                     headers : {
                         'Authorization' : `Bearer ${auth?.token}`
                     }
