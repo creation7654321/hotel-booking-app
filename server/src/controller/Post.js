@@ -117,7 +117,7 @@ export const getAllPostController = async(req,res)=>{
 export const updatePostController = async (req,res)=>{
     try {
         const {id} = req.params;
-        const {title, hotelLocation ,description,nearArea, category, guest, isAvailable, price } = req.body;
+        const {title, hotelLocation ,description, nearArea, category, guest, isAvailable, price } = req.body;
         const files = req.files?.images;
 
         const post = await Post.findById(id);

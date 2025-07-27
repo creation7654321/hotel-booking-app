@@ -48,7 +48,6 @@ function NextTrip() {
                     
                 </div>
             ))}
-
         </div>
     </div>
   )

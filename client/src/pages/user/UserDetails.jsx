@@ -3,9 +3,11 @@ import {useAuth} from '../../context/UserContext'
 
 function UserDetails() {
     const [auth] = useAuth();
+    console.log(auth);
     const user = {
         name: auth.user?.name,
         email: auth.user?.email
+
     }
   return (
     <div className='p-8 max-w-sm bg-white mt-6'>

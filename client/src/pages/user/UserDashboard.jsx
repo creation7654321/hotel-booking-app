@@ -9,8 +9,6 @@ function UserDashboard() {
         className='flex shadow-lg rounded-lg overflow-hidden bg-white min-h-[28rem] w-[82rem]'>
             <Navbar />
             <UserDetails />
-
-
         </div>
 
     </div>

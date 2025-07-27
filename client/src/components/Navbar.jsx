@@ -3,12 +3,13 @@ import { FaUser} from 'react-icons/fa'
 import logo from '../assets/logo.png'
 import { useAuth } from '../context/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 function Navbar() {
-    const isSingIn = true;
+    const isSingIn = false;
 
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-    const[auth] = useAuth();
+    const[auth,setAuth] = useAuth();
     const navigate = useNavigate();
 
     const handleDropDownTogle = ()=>{
@@ -20,14 +21,28 @@ function Navbar() {
     }
 
     const handleRedirect = ()=>{
-
-        if(auth.user.role === "admin"){
+        if(auth.user?.role === "admin"){
             navigate('/admin/details');
         }
         else{
             navigate('/user');
         }
     }
+
+    const handleLogOut = ()=>{
+        setAuth({
+            ...auth,
+            user:null,
+            token: "",
+        });
+        localStorage.removeItem("auth");
+        toast.success("Logged out successfully");
+        navigate("/");
+
+
+    }
+
+    
 
   return (
     <nav className='flex items-center justify-between p-4'>
@@ -59,15 +74,17 @@ function Navbar() {
                             Profile
                         </li>
 
-                        {isSingIn ?(
-                            <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer'>
-                                <a href="/">SingOut</a>
+                        {auth.user ?(
+                            <li onClick={handleLogOut} className='px-4 py-2 hover:bg-gray-100 cursor-pointer'>
+                                SignOut
                             </li>
                         )
                         :
                         (
                             <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer'>
-                                <a href="/">SignIn</a>
+                                <Link to={"/login"}>
+                                    SignIn
+                                </Link>
                             </li>
                         )}
                     </ul>
