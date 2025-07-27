@@ -10,6 +10,7 @@ import UserDashboard from './pages/user/UserDashboard'
 import YourOrder from './pages/user/YourOrder'
 import Dashboard from './pages/admin/Dashboard'
 import Details from './pages/admin/Details'
+import CreatePost from './pages/admin/CreatePost'
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
         {/* admin routing */}
         <Route path="/admin" element={<AdminRoutes />}>
           <Route path="" element={<Dashboard />} />
-          <Route path="details" element={<Details/>} />
+          <Route path="/admin/create-post" element={<CreatePost />} />
         </Route>
       </Routes>
     </div>
