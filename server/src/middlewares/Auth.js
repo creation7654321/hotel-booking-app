@@ -59,7 +59,7 @@ export const requireSignIn = async(req,res,next)=>{
             })
         }
         const decode = JWT.verify(token, process.env.JWT_SECRET);
-        if(!decode._id && !decode.id){
+        if(!decode?._id && !decode?.id){
             return res.status(401).send({
                 success: false,
                 message: "Token does not contain user ID"
@@ -79,7 +79,7 @@ export const requireSignIn = async(req,res,next)=>{
 
 export const isAdmin = async(req,res,next)=>{
     try {
-        const userId = req.user._id || req.user.id;
+        const userId = req?.user._id || req.user?.id;
         if(!userId){
             return res.status(401).send({
                 success: false,

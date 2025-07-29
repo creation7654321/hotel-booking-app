@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
+import Navbar from './Navbar';
 
 
 function CreateCategory() {
@@ -10,14 +11,6 @@ function CreateCategory() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [editId, setEditId] = useState(null);
 
-  const handleDelete = async(id)=>{
-    try {
-      await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/category/delete-category/${id}`)
-      fetchCategories();
-    } catch (error) {
-      console.log("Error deleting category");
-    }
-  }
   // Fetch categories from API
   const fetchCategories = async () => {
     try {
@@ -30,77 +23,106 @@ function CreateCategory() {
     }
   };
 
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+  
+  const handleDelete = async(id)=>{
+    try {
+      await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/category/delete-category/${id}`)
+      fetchCategories();
+    } catch (error) {
+      console.log("Error deleting category");
+    }
+  }
+  
   const handleEdit = (id, name)=>{
     setEditId(id);
     setCategoryName(name);
   }
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = async(e)=>{
     e.preventDefault();
     try {
-      
+      if(editId){
+        await axios.put(`${import.meta.env.VITE_BASE_URL}/api/category/update-category/${editId}`,{
+          name:categoryName,
+        })
+        setCategoryName("");
+        fetchCategories();
+      }
+      else{
+        await axios.post(`${import.meta.env.VITE_BASE_URL}/api/category/create-category`,{
+          name:categoryName
+        })
+        setCategoryName("");
+        setEditId(null);
+        fetchCategories();
+      }
     } catch (error) {
+      console.log(`Error in handle submit in either edit or create:${error}`);
       
     }
 
   }
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length > 3) {
-      toast.warn("You can only upload a maximum of 3 images.");
-    } else {
-      setImages(files);
-    }
-  };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
 
-  //   // Validate form fields
-  //   if (
-  //     !title ||
-  //     !hotelLocation ||
-  //     !description ||
-  //     !facilities ||
-  //     !nearArea ||
-  //     !selectedCategory ||
-  //     !guest ||
-  //     !price
-  //   ) {
-  //     return toast.error("All fields are required.");
-  //   }
-
-  //   if (images.length !== 3) {
-  //     return toast.error("Please upload exactly 3 images.");
-  //   }
-
-  //   const formData = new FormData();
-  //   formData.append("title", title);
-  //   formData.append("hotelLocation", hotelLocation);
-  //   formData.append("description", description);
-  //   formData.append("facilities", facilities);
-  //   formData.append("nearArea", nearArea);
-  //   formData.append("category", selectedCategory);
-  //   formData.append("guest", guest);
-  //   formData.append("isAvailable", isAvailable);
-  //   formData.append("price", price);
-
-  //   images.forEach((file) => {
-  //     formData.append("images", file);
-  //   });
-
-    
-  // };
-  return (
-    <div >
-     
+  
+ return (
+    <div className="flex ml-16 mt-4">
+      <Navbar />
+      <div className="flex flex-col items-center p-4 w-full max-w-3xl">
+        <h1 className="text-2xl font-bold mb-4">Create Category</h1>
+        <form
+          onSubmit={handleSubmit}
+          className="flex items-center gap-2 mb-4 w-full max-w-md"
+        >
+          <input
+            type="text"
+            placeholder="Category Name"
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
+            className="border px-2 py-1 w-full max-w-sm bg-white"
+          />
+          <button
+            type="submit"
+            className="px-4 py-1 bg-blue-500 text-white ml-2"
+          >
+            {editId ? "Update" : "Submit"}
+          </button>
+        </form>
+        <div className="w-full max-w-md">
+          <h2 className="text-xl font-semibold mb-2">Categories</h2>
+          <ul className="border border-gray-300 p-4">
+            {category.map((category) => (
+              <li
+                key={category._id}
+                className="flex justify-between items-center p-1 border-b last:border-b-0"
+              >
+                <span className="flex-grow">{category.name}</span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEdit(category._id, category.name)}
+                    className="px-2 py-1 bg-yellow-500 text-white"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(category._id)}
+                    className="px-2 py-1 bg-red-500 text-white"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default CreateCategory

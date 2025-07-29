@@ -3,9 +3,12 @@ import { createCategoryController, getAllCategoryController,updateCategoryContro
 import { isAdmin ,requireSignIn} from "../middlewares/Auth.js";
 const app = express.Router();
 
-app.post('/create-category',isAdmin,requireSignIn,createCategoryController);
-app.get('/get-category',isAdmin, requireSignIn,getAllCategoryController);
-app.put('/update-category/:id',isAdmin, requireSignIn, updateCategoryController);
-app.delete('/delete-category/:id',isAdmin, requireSignIn,deleteCategoryController);
+// app.post('/create-category',isAdmin,requireSignIn,createCategoryController);
+app.post('/create-category',createCategoryController);
+app.get('/get-category',getAllCategoryController);
+// app.put('/update-category/:id',isAdmin, requireSignIn, updateCategoryController);
+app.put('/update-category/:id',updateCategoryController);
+// app.delete('/delete-category/:id',isAdmin, requireSignIn,deleteCategoryController);
+app.delete('/delete-category/:id',deleteCategoryController);
 app.get('single-category/:slug',singleCategory)
 export default app;

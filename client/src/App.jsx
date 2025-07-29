@@ -11,6 +11,7 @@ import YourOrder from './pages/user/YourOrder'
 import Dashboard from './pages/admin/Dashboard'
 import Details from './pages/admin/Details'
 import CreatePost from './pages/admin/CreatePost'
+import CreateCategory from './pages/admin/CreateCategory'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/admin" element={<AdminRoutes />}>
           <Route path="" element={<Dashboard />} />
           <Route path="/admin/create-post" element={<CreatePost />} />
+          <Route path="/admin/create-category" element={<CreateCategory />} />
         </Route>
       </Routes>
     </div>
