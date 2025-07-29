@@ -12,6 +12,8 @@ import Dashboard from './pages/admin/Dashboard'
 import Details from './pages/admin/Details'
 import CreatePost from './pages/admin/CreatePost'
 import CreateCategory from './pages/admin/CreateCategory'
+import Advertisment from './components/Advertisment'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -32,7 +34,10 @@ function App() {
           <Route path="/admin/create-post" element={<CreatePost />} />
           <Route path="/admin/create-category" element={<CreateCategory />} />
         </Route>
+
       </Routes>
+      <Advertisment />
+      <Footer />
     </div>
   )
 }
