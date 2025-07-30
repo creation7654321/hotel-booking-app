@@ -14,6 +14,7 @@ import CreatePost from './pages/admin/CreatePost'
 import CreateCategory from './pages/admin/CreateCategory'
 import Advertisment from './components/Advertisment'
 import Footer from './components/Footer'
+import AllPost from './pages/admin/AllPost'
 
 function App() {
   return (
@@ -31,8 +32,10 @@ function App() {
         {/* admin routing */}
         <Route path="/admin" element={<AdminRoutes />}>
           <Route path="" element={<Dashboard />} />
+          <Route path="/admin/details" element={<Details />}/>
           <Route path="/admin/create-post" element={<CreatePost />} />
           <Route path="/admin/create-category" element={<CreateCategory />} />
+          <Route path="/admin/all-post" element={<AllPost />}/>
         </Route>
 
       </Routes>
