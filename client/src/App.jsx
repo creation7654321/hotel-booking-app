@@ -15,6 +15,7 @@ import CreateCategory from './pages/admin/CreateCategory'
 import Advertisment from './components/Advertisment'
 import Footer from './components/Footer'
 import AllPost from './pages/admin/AllPost'
+import ProductDetails from './pages/ProductDetails'
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
         <Route path="/" element={<HomePage/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/product/:slug" element={<ProductDetails/>} />
+        
         {/* user routing */}
         <Route path="/user" element={<UserRoutes />}>
           <Route path="" element={<UserDashboard />} />

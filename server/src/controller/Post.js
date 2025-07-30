@@ -219,3 +219,29 @@ export const deletePostController = async(req,res)=>{
     }
 }
 
+
+export const getRealtedPost = async(req,res)=>{
+    try {
+        const {pid, cid} = req.params;
+        const relatedPost = await Post.findOne({
+            category: cid,
+            _id: { $ne: pid}  
+        })
+        .select("-photo")
+        .limit(2)
+        .populate("category")
+
+        return res.status(200).send({
+            succecs: true,
+            message: "Related posts fetched successfully",
+            relatedPost
+        })
+        
+    } catch (error) {
+        return res.status(500).send({
+            success : false,
+            message: "Error while fetching realted posts",
+            error
+        })
+    }
+}
