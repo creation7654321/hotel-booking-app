@@ -10,16 +10,28 @@ import { useParams } from 'react-router-dom';
 function Product() {
   const params = useParams();
   const[postDetails, setPostDetails] = useState(null);
-  console.log("post details",postDetails);
+  const[relatedPost, setRelatedPost] = useState([]);
+  // console.log("post details",postDetails);
+  console.log("REaltedpost", relatedPost);
   
   const handlePostDetails = async()=>{
     try {
       const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/post/get-post/${params.slug}`);
+      const post = response.data.post;
       setPostDetails(response.data.post);
+      getRealtedPost(post?._id, post?.category._id);
     } catch (error) {
       console.log(error);
     }
     
+  }
+  const getRealtedPost = async(pid, cid)=>{
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/post/related-post/${pid}/${cid}`);
+      setRelatedPost(res.data.relatedPost);
+    } catch (error) {
+      console.log(error);
+    }
   }
   useEffect(()=>{
     handlePostDetails();

@@ -1,5 +1,5 @@
 import express from "express";
-import { createPostController, getPostController,getAllPostController, updatePostController, deletePostController,getRealtedPost } from "../controller/Post.js";
+import { createPostController, getPostController,getAllPostController, updatePostController, deletePostController, getRealtedPost } from "../controller/Post.js";
 import multer from 'multer'; 
 import path from 'path';
 
