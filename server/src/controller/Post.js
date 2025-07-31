@@ -77,7 +77,7 @@ export const createPostController = async(req,res)=>{
 export const getPostController = async(req,res)=>{
     try {
         const post = await Post.findOne({slug: req.params.slug})
-        .select("-images")
+        .select("-photo")
         .populate("category");
         if(!post){
             return res.status(404).send({
