@@ -3,13 +3,18 @@ import {FaWifi, FaBriefcase, FaSwimmingPool, FaCar, FaStar} from "react-icons/fa
 import {MdLocationOn} from 'react-icons/md'
 import axios from "axios";
 // import Spinner from '../Routes/Spinner';
+
 import { useParams } from 'react-router-dom';
 import RelatedProduct from './RelatedProduct';
+import { useCart } from '../../context/Cart';
+import Spinner from '../Routes/Spinner';
+import { toast } from 'react-toastify';
 
 function Product() {
   const params = useParams();
   const[postDetails, setPostDetails] = useState(null);
   const[relatedPost, setRelatedPost] = useState([]);
+  const{cart, setCart} = useCart();
   console.log("post details",postDetails);
   console.log("Relatedpost", relatedPost);
   
@@ -24,6 +29,8 @@ function Product() {
     }
     
   }
+
+
   const getRealtedPost = async(pid, cid)=>{
     try {
       console.log("hi")
@@ -33,9 +40,22 @@ function Product() {
       console.log(error);
     }
   }
+
+
   useEffect(()=>{
     handlePostDetails();
   },[])
+
+const handleAddToCart = ()=>{
+  if(postDetails?.isAvailable){
+    setCart([...cart, postDetails]);
+    localStorage.setItem("cart",JSON.stringify([...cart,postDetails]));
+    toast.success("product added to cart successfully!");
+  }
+}
+
+  if(!postDetails) return <Spinner />
+
   return (
     <div className='p-8 min-h-screen'>
       <div className='flex flex-col md:flex-row md:space-x-8 overflow-hidden'>
@@ -77,7 +97,21 @@ function Product() {
           </p>
           <div className="flex space-x-4 mb-6">
             <button className='px-6 py-3 font-semibold rounded-lg shadow-transparent bg-blue-500 text-white hover:bg-blue-700 cursor-pointer'>Check-in</button>
-            <button className='px-6 py-3 font-semibold rounded-lg shadow-transparent bg-blue-500 text-white hover:bg-blue-700 cursor-pointer'>Add to Wishlist</button>
+            <button 
+            className={`px-6 py-3 font-semibold rounded-lg shadow-transparent 
+              ${postDetails?.isAvailable
+                ? "bg-gray-200 text-gray-700 hover:bg-gray-600"
+                :"bg-gray-300 text-white cursor-not-allowed"} `}
+            >
+              Add to Wishlist</button>
+            {/* <button className={`px-6 py-3 font-semibold rounded-lg shadow-transparent ${
+              postDetails.isAvailable
+              ? "bg-gray-200 text-gray-700 hover:bg-gray-600"
+              : "bg-gray-300 text-gray-300 cursor-not-allowed"
+            }`}
+            onClick={handleAddToCart}
+            >
+              Add to Wishlist</button> */}
           </div>
           <div className='mb-6'>
             <h2 className='text-xl font-semibold text-gray-800'>Overview</h2>
