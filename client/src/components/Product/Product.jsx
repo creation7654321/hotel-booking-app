@@ -14,9 +14,9 @@ function Product() {
   const params = useParams();
   const[postDetails, setPostDetails] = useState(null);
   const[relatedPost, setRelatedPost] = useState([]);
-  const{cart, setCart} = useCart();
-  console.log("post details",postDetails);
-  console.log("Relatedpost", relatedPost);
+  const[cart, setCart] = useCart();
+  // console.log("post details",postDetails);
+  // console.log("Relatedpost", relatedPost);
   
   const handlePostDetails = async()=>{
     try {
@@ -50,6 +50,7 @@ const handleAddToCart = ()=>{
   if(postDetails?.isAvailable){
     setCart([...cart, postDetails]);
     localStorage.setItem("cart",JSON.stringify([...cart,postDetails]));
+
     toast.success("product added to cart successfully!");
   }
 }
@@ -98,10 +99,12 @@ const handleAddToCart = ()=>{
           <div className="flex space-x-4 mb-6">
             <button className='px-6 py-3 font-semibold rounded-lg shadow-transparent bg-blue-500 text-white hover:bg-blue-700 cursor-pointer'>Check-in</button>
             <button 
-            className={`px-6 py-3 font-semibold rounded-lg shadow-transparent 
+            className={`px-6 py-3 font-semibold rounded-lg shadow-transparent cursor-pointer
               ${postDetails?.isAvailable
-                ? "bg-gray-200 text-gray-700 hover:bg-gray-600"
+                ? "bg-blue-600 text-white hover:bg-blue-900"
                 :"bg-gray-300 text-white cursor-not-allowed"} `}
+                disabled={!postDetails?.isAvailable}
+                onClick={handleAddToCart}
             >
               Add to Wishlist</button>
             {/* <button className={`px-6 py-3 font-semibold rounded-lg shadow-transparent ${
