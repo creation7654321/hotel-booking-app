@@ -1,5 +1,5 @@
 import express from "express";
-import { createPostController, getPostController,getAllPostController, updatePostController, deletePostController, getRealtedPost } from "../controller/Post.js";
+import { createPostController, getPostController,getAllPostController, updatePostController, deletePostController, getRealtedPost,searchProductController } from "../controller/Post.js";
 import multer from 'multer'; 
 import path from 'path';
 
@@ -13,4 +13,5 @@ routes.get('/get-all-posts',getAllPostController);
 routes.put('/update-post/:id',updatePostController);
 routes.delete('/delete-post/:id',deletePostController);
 routes.get('/related-post/:pid/:cid', getRealtedPost)
+routes.get('/search/:keyword', searchProductController);
 export default routes;

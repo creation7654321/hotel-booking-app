@@ -7,16 +7,19 @@ import {ToastContainer} from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import { AuthProvider } from './context/UserContext.jsx'
 import { CartProvider } from './context/Cart.jsx'
+import { SearchProvider } from './context/Search.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <CartProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </CartProvider>
-      <ToastContainer/>
+      <SearchProvider>
+        <CartProvider>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </CartProvider>
+        <ToastContainer/> 
+      </SearchProvider>
     </BrowserRouter>
   </StrictMode>,
 )

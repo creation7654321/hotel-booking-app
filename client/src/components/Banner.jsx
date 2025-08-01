@@ -1,8 +1,29 @@
 import React from 'react'
 import BannerImage from '../assets/Rectangle2.png';
-
+import {useNavigate} from "react-router-dom"
+import { useState } from 'react';
+import axios from "axios";
+import { useSearch } from '../context/Search';
 
 function Banner() {
+    const navigate = useNavigate();
+    const [search, setSearch] = useSearch();
+    const handleSearch = async(e)=>{
+        e.preventDefault();
+        if(!search.keyword){
+            alert('Please enter a keyword to search');
+            return;
+        }
+        try {
+            const data = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/post/search/${search.keyword}`)
+            console.log("Response",data);
+            setSearch({...search, results:data});
+            navigate(`/search`);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
   return (
    <div 
     style={{backgroundImage: `url(${BannerImage})`}}
@@ -26,10 +47,13 @@ function Banner() {
                 className='flex-grow p-2 border-gray-300 border rounded-md
                 text-black focus:outline-none focus:ring-blue-500 bg-white'
                 placeholder='Search Destination......'
+                value={search.keyword}
+                onChange={(e)=>setSearch({...search, keyword:e.target.value})}
                 />
                 <button
                 className='px-4 py-2 bg-blue-600 text-white 
                 font-medium rounded-md hover:bg-blue-700 transiton'
+                onClick={handleSearch}
                 >
                     Search
                 </button>

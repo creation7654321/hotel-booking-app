@@ -25,7 +25,7 @@ function Hotel() {
   };
 
   const [posts, setPosts] = useState([]);
-  console.log("All post data", posts);
+  // console.log("All post data", posts);
 
   const handleApi = async () => {
     try {

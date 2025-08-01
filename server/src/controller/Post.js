@@ -245,3 +245,29 @@ export const getRealtedPost = async(req,res)=>{
         })
     }
 }
+
+export const searchProductController = async(req,res)=>{
+    try {
+        const {keyword} = req.params;
+        const words = keyword.split(" ");
+        const regexString = words.join("|")
+        const results = await Post.find({
+            $or : [
+                {title : {$regex: keyword, $options: "i"}},
+                {description: {
+                    $regex: regexString,
+                    $options: "i",
+                }}
+            ]
+        })
+        .select("title hotelLocation images description")
+        res.json(results);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success: false,
+            message: "Error while searching posts",
+            error,
+        })
+    }
+}
