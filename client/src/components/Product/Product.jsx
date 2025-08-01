@@ -44,7 +44,7 @@ function Product() {
 
   useEffect(()=>{
     handlePostDetails();
-  },[])
+  },[params.slug])
 
 const handleAddToCart = ()=>{
   if(postDetails?.isAvailable){

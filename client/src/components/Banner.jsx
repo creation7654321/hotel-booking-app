@@ -15,9 +15,9 @@ function Banner() {
             return;
         }
         try {
-            const data = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/post/search/${search.keyword}`)
-            console.log("Response",data);
-            setSearch({...search, results:data});
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/post/search/${search.keyword}`)
+            console.log("Response",response.data);
+            setSearch({...search, results:response.data});
             navigate(`/search`);
         } catch (error) {
             console.log(error);
