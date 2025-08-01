@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaUser} from 'react-icons/fa'
+import { FaUser, FaHeart} from 'react-icons/fa'
 import logo from '../assets/logo.png'
 import { useAuth } from '../context/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
@@ -62,6 +62,10 @@ function Navbar() {
             <FaUser 
             size={20}
             onClick={handleDropDownTogle}
+            />
+            <FaHeart
+            size={20}
+            onClick={()=>navigate('/cart')}
             />
 
             {isDropDownOpen && (

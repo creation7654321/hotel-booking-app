@@ -16,6 +16,7 @@ import Advertisment from './components/Advertisment'
 import Footer from './components/Footer'
 import AllPost from './pages/admin/AllPost'
 import ProductDetails from './pages/ProductDetails'
+import CartPage from './pages/CartPage'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
         <Route path="/product/:slug" element={<ProductDetails/>} />
+        <Route path="/cart" element={<CartPage />}/>
         
         {/* user routing */}
         <Route path="/user" element={<UserRoutes />}>
